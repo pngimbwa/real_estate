@@ -17,5 +17,8 @@ def list_addresses(request):
 
 
 def get_home(request,housetype,bed_number,min_price,max_price,choices):
-    if housetype =='All':
-        pass
+    if housetype =='Hostel':
+        if bed_number == -999:
+            ome_instance = Hostel.objects.filter()
+        else: 
+            home_instance = Hostel.objects.filter(NumOfRooms=bed_number)
