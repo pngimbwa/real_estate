@@ -186,7 +186,7 @@ class EstateForm(forms.Form):
         
         #year_built_min =  forms.ChoiceField(choices = YEAR_BUILT_MIN, widget=forms.Select(attrs={'class': 'form-control seleckpicker'}))
         #year_built_max =  forms.ChoiceField(choices = YEAR_BUILT_MAX, widget=forms.Select(attrs={'class': 'form-control seleckpicker'}))
-        rooms = forms.ChoiceField(choices = BEDS_CHOICES, widget=forms.Select(attrs={'class': 'form-control seleckpicker'}))
+        #rooms = forms.ChoiceField(choices = BEDS_CHOICES, widget=forms.Select(attrs={'class': 'form-control seleckpicker'}))
         choices = forms.MultipleChoiceField(choices=CHOICES, widget=forms.CheckboxSelectMultiple())
 '''
 class HouseSpecificationForm(forms.ModelForm):

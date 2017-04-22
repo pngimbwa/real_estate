@@ -22,13 +22,13 @@ admin.site.register(Owner,OwnerAdmin)
 
 class HostelAdmin(admin.ModelAdmin):
     search_fields = ['HostelName','NumOfRooms']
-    list_display = ('HostelName','NumOfRooms','address','owner','picture')
+    list_display = ('HostelName','NumOfRooms','available_rooms','address','owner','picture')
 admin.site.register(Hostel,HostelAdmin)
 
 
 class HostelRoomAdmin(admin.ModelAdmin):
     search_fields = ['RoomNumber','hostel__HostelName']
-    list_display = ('RoomNumber','Price','RoomSize','RoomPaymentMode','hostel','picture')
+    list_display = ('RoomNumber','Roomavalaibility','Price','RoomSize','RoomPaymentMode','hostel','picture')
 admin.site.register(HostelRoom,HostelRoomAdmin)
 
 
@@ -48,10 +48,3 @@ class HouseAdmin(admin.ModelAdmin):
     search_fields = ['ApartmentName']
     list_display = ('HouseName','NoOfRooms','HouseSize','owner','address','price','HousePaymentMode','picture')
 admin.site.register(House,HouseAdmin)
-
-
-
-
-
-
-

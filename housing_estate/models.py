@@ -35,18 +35,18 @@ class HouseSpecification(models.Model):
 class HomeType(models.Model):
     homeID = models.CharField(primary_key =True,max_length=5)
     hometype = models.CharField(choices=PAYMENT_MODE_CHOICES, max_length=10)
-    
+
     def __str__(self):
         return self.hometype
-    
+
 '''
-    
+
 HOME_TYPE=(
     ('House','House'),
     ('Apartment','Apartment'),
     ('Hostel','Hostel')
-    ) 
-    
+    )
+
 class Address(models.Model):
     HouseNo = models.CharField(primary_key=True, max_length=20)
     #Hometype = models.CharField(choices=HOME_TYPE,max_length=20)
@@ -65,18 +65,19 @@ class Owner(models.Model):
     Phone = models.CharField(max_length=20)
 
     def __str__(self):
-        return (self.FirstName,self.LastName)
+        return '{} {}'.format(self.FirstName,self.LastName)
 
 
 class Hostel(models.Model):
     HostelName = models.CharField(max_length=30)
     NumOfRooms = models.IntegerField("Number of Rooms")
+    available_rooms = models.IntegerField('Available rooms',blank=True, null=True)
     address = models.ForeignKey(Address)
     owner = models.ForeignKey(Owner)
     picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return (self.HostelName)
+        return '{}'.format(self.HostelName)
 
 
 class HostelRoom(HouseSpecification):
@@ -85,11 +86,11 @@ class HostelRoom(HouseSpecification):
     RoomSize = models.FloatField()
     RoomPaymentMode = models.CharField(choices=PAYMENT_MODE_CHOICES, max_length=10)
     hostel = models.ForeignKey(Hostel)
+    Roomavalaibility = models.BooleanField(default=False)
     picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return (self.RoomNumber)
-
+        return '{}'.format(self.RoomNumber)
 
 class Compound(models.Model):
     CompoundName = models.CharField(max_length=20)
@@ -99,7 +100,7 @@ class Compound(models.Model):
     picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return (self.CompoundName)
+        return '{}'.format(self.CompoundName)
 
 
 class Apartment(HouseSpecification):
@@ -112,7 +113,7 @@ class Apartment(HouseSpecification):
     picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return (self.ApartmentName)
+        return '{}'.format(self.ApartmentName)
 
 
 class House(HouseSpecification):
@@ -126,4 +127,4 @@ class House(HouseSpecification):
     picture = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
     def __str__(self):
-        return (self.HouseName)
+        return '{}'.format(self.HouseName)
