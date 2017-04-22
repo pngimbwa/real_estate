@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block main_section %}
+
+
+    <div class="col-sm-3 col-md-4 sidebar">
+	
+	<form class="well form-horizontal" action=" " method="post"  id="estate_form">{% csrf_token %}
+	
+		  <div class="form-group"> 
+					{{ estateform.housetype.errors }}
+					<label for="housetype" class="col-md-4 control-label">Home Type:</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.housetype }}
+						</div>
+		  </div>
+		  
+		  <div class="form-group" id='hostel_rooms'> 
+					{{ estateform.rooms.errors }}
+					<label for="rooms" class="col-md-4 control-label">No of room(s):</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.rooms }}
+						</div>
+		  </div>
+		  
+		  <div class="form-group" id='apart_house_bed'> 
+					{{ estateform.beds.errors }}
+					<label for="beds" class="col-md-4 control-label">No of Bed(s):</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.beds }}
+						</div>
+		  </div>
+		  
+		 
+		  
+		  <div class="form-group"> 
+					{{ estateform.price_range.errors }}
+					<label for="price_range" class="col-md-4 control-label">Price range:</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.min_price }} -  {{ estateform.max_price }}
+						</div>
+		  </div>
+		   <!--
+		  <div class="form-group"> 
+					{{ estateform.year_built.errors }}
+					<label for="year_built" class="col-md-4 control-label">Built year:</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.year_built_min }} - {{ estateform.year_built_max }}
+						</div>
+		  </div>
+		  -->
+		  <div class="form-group"> 
+					{{ estateform.choices.errors }}
+					<label for="choices" class="col-md-4 control-label">Has:</label>
+						<div class="col-md-4 selectContainer">
+							  {{ estateform.choices }}
+						</div>
+		  </div>
+		  
+	
+	</form>
+	</div>
+    
+	<div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 main">
+		  <!--<h1 class="page-header">Morogoro Region</h1>-->
+		  <div id="map" style="width: 1200px; height: 900px"></div>
+	</div>
+	
+{% endblock %}
+
+
+{% block extended_javascripts_code %}
+<script type="text/javascript">
+    
+    var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>',
+        worldlink ='<a href="http://www.esri.com/">Esri</a>',
+        thunLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+        
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; ' + osmLink + ' Contributors';
+    
+        worldurl = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        worldAttrib = '&copy; ' + worldlink + ' Contributors',
+        
+        landUrl = 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=4ed9713c99264649908e5e085daa379f',
+        thunAttrib = '&copy; '+ thunLink +' Contributors & ';
+        
+        
+    var osmMap = L.tileLayer(osmUrl, {attribution: osmAttrib});
+        worldMap = L.tileLayer(worldurl, {attribution: osmAttrib}),
+        landMap = L.tileLayer(landUrl, {attribution: thunAttrib});
+
+   
+    var map = L.map('map', {
+        layers:[osmMap],
+        center: [-6.8304, 37.6706],
+                zoom:15,
+                maxZoom: 17,
+                minZoom:10,
+                zoomControl: false,
+                attributionControl: false
+                });
+
+    var baseLayers = {
+        "Open Street Map":osmMap,
+        "Satelite Map":worldMap,
+        "Landscape Map":landMap
+    
+    };
+	
+    L.control.layers(baseLayers).addTo(map);
+        
+    var osmGeocoder = new L.Control.OSMGeocoder({
+            collapsed: true,
+            position: 'bottomright',
+            text: 'Search Place!',
+			});
+       map.addControl(osmGeocoder);
+	   
+	 /*var marker = L.marker([-6.8304, 37.6706],{
+            opacity:1,
+            title:'Hover Text'
+            }).addTo(map)
+                .bindPopup('<b>Te Papa</b><br>My popup.');
+
+	  */		
+
+</script>
+<script>
+$(document).ready(function() {
+	  $('#id_housetype').change(function() {
+			if ($(this).val() ==  '' ) {
+                $('#hostel_rooms').hide();
+				$('#apart_house_bed').hide();
+            }
+			else if ($(this).val() =='Hostel'){
+			    $('#hostel_rooms').show();
+				$('#apart_house_bed').hide();
+				$('#id_beds').val(-999);
+            }
+			else if ($(this).val() =='Apartment' || $(this).val() == 'House') {
+				$('#hostel_rooms').hide();
+				$('#id_rooms').val(-999);
+				$('#apart_house_bed').show();  
+				  
+			}
+			
+	  })
+
+	  
+});
+</script>
+<script>
+$(document).ready(function() {
+		  $("#id_housetype,#id_beds,#id_price_range,#id_choices").on('propertychange change click keyup input', function () {
+			if ($('#id_min_price').val() == '' || $('#id_min_price').val() == null) {
+                $('#id_min_price').val(-999);
+            }
+			if ($('#id_max_price').val() == '' || $('#id_max_price').val() == null) {
+                $('#id_max_price').val(-999);
+            }
+			if ($('#id_beds').val() == '' || $('#id_beds').val() == null) {
+                $('#id_beds').val(-999);
+            }
+			if ($('#id_housetype').val() == '' || $('#id_housetype').val() == null) {
+                $('#id_housetype').val('ALL');
+            }
+			var url = "/search_home/" + $('#id_housetype').val() + '/' + $('#id_beds').val() + '/' +  $('#id_min_price').val() + '/' + $('#id_max_price').val() + '/' + $('#id_choices').val() + "/search_home";
+				  $.getJSON(url, function(searched_results) {
+						
+					})
+          })
+});
+</script>
+
+<script>
+$(window).load(function() {
+	  var url = "/address_display/";
+	  $.getJSON(url, function(retrieved_address) {
+			for (i=0; i < retrieved_address.length; i++ ) {
+				  var coordinate = retrieved_address[i].fields['position'].split(',')
+				  var 	latitude = coordinate[0],longitude = coordinate[1];
+                marker = new L.marker([latitude,longitude]).addTo(map).bindPopup(retrieved_address[i].pk);
+            }
+			
+			
+	  })
+
+	  
+});
+</script>
+{% endblock %}
+
+

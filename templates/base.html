@@ -1,0 +1,104 @@
+{% load i18n admin_static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+{% block title %}
+    <title> </title>
+{% endblock %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <!-- FormValidation CSS file -->
+    <link href="{% static 'formvalidation/dist/css/formValidation.css' %}" rel="stylesheet">
+    <!--Bootstrap Validator CSS-->
+    <link href="{% static 'css/bootstrapValidator.min.css' %}" rel="stylesheet prefetch">
+    
+    <!---JQUERY CSS -->
+    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
+
+    <!--FONT AWESOME -->
+    <link href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+    
+   <script src="{% static 'js/jquery-1.12.4.js' %}"></script>
+   
+   <!-- Leaflet CSS-->
+    <link href="{% static 'leaflet/leaflet.css' %}" rel="stylesheet">
+	<!-- Leaflet OSMGeocoderCSS-->
+	<link href="{% static 'leaflet-control-osm-geocoder-master/Control.OSMGeocoder.css' %}" rel="stylesheet">
+	<!-- Leaflet JS-->
+	<script src="{% static 'leaflet/leaflet.js' %}"></script>
+	<!-- Leaflet OSMGeocoder JS-->
+    <script src="{% static 'leaflet-control-osm-geocoder-master/Control.OSMGeocoder.js' %}"></script>
+	
+	<!-- Custom styles for this template -->
+	<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">	
+    {% endblock %}
+     
+  </head>
+<body>
+      {% block navbar %}
+        {% include 'navbar.html' %}
+      {% endblock %}
+
+    <div class="container-fluid">
+        <div class="row">
+            {% block main_section %}
+
+            {% endblock %}
+        </div>
+	</div>
+
+            {% block footer %}
+                <!-- Site footer -->
+                <footer class="navbar-default navbar-fixed-bottom">
+                    <div class="container-fluid">
+                        <p class="text-muted" align='center' >Real estate &copy; 2017 copyright.</p>
+                    </div>
+                </footer>
+            {% endblock %}
+
+
+
+{% block javascripts %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+     <!--- JQUERY JS-->
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <!--<script src="{% static 'js/jquery.min.js' %}"></script>-->
+    <!--- Bootstrap JS-->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- FormValidation plugin and the class supports validating Bootstrap form -->
+    <script src="{% static 'formvalidation/dist/js/formValidation.min.js' %}"></script>
+    <script src="{% static 'formvalidation/dist/js/framework/bootstrap.min.js' %}"></script>
+    
+    <!--intl-tel-input-->
+    <!--<script src="{% static 'intl-tel-input-10.0.0/build/js/intlTelInput.min.js' %}"></script>-->
+    
+    <!-- bootstrapvalidator  supports validating Bootstrap form -->
+    <script src="{% static 'js/bootstrapvalidator.min.js' %}"></script>
+	<script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+    <!--- Myscript JS-->
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+            if (document.location.search.match(/type=embed/gi)) {
+                window.parent.postMessage("resize", "*");
+                }
+    </script>
+    
+{% endblock %}
+
+{% block extended_javascripts_code %}
+
+{% endblock %}
+</body>
+</html>
+
